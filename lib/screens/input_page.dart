@@ -34,34 +34,28 @@ class _InputPageState extends State<InputPage> {
             child: Row(
               children: [
                 Expanded(
-                  child: GestureDetector(
-                    onTap: () => setState(() {
-                      selectedGender = Gender.male;
-                    }),
-                    child: ReusableCard(
-                      color: selectedGender == Gender.male
-                          ? activeCardColor
-                          : inactiveCardColor,
-                      childWidget: IconContent(
-                        faIcon: FontAwesomeIcons.mars,
-                        faText: "MALE",
-                      ),
+                  child: ReusableCard(
+                    onTapFunction: () =>
+                        setState(() => selectedGender = Gender.male),
+                    color: selectedGender == Gender.male
+                        ? activeCardColor
+                        : inactiveCardColor,
+                    childWidget: IconContent(
+                      faIcon: FontAwesomeIcons.mars,
+                      faText: "MALE",
                     ),
                   ),
                 ),
                 Expanded(
-                  child: GestureDetector(
-                    onTap: () => setState(() {
-                      selectedGender = Gender.female;
-                    }),
-                    child: ReusableCard(
-                      color: selectedGender == Gender.female
-                          ? activeCardColor
-                          : inactiveCardColor,
-                      childWidget: IconContent(
-                        faIcon: FontAwesomeIcons.venus,
-                        faText: "FEMALE",
-                      ),
+                  child: ReusableCard(
+                    onTapFunction: () =>
+                        setState(() => selectedGender = Gender.female),
+                    color: selectedGender == Gender.female
+                        ? activeCardColor
+                        : inactiveCardColor,
+                    childWidget: IconContent(
+                      faIcon: FontAwesomeIcons.venus,
+                      faText: "FEMALE",
                     ),
                   ),
                 ),
