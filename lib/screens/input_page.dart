@@ -1,4 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:bmi_calculator/utils/icon_content.dart';
+import 'package:bmi_calculator/utils/reusable_card.dart';
+
+const bottomContainerHeight = 70.0;
+const bottomContainerColor = Color(0xFFEB1555);
+const activeCardColor = Color(0xFF1D1E33);
+const inactiveCardColor = Color(0xFF111328);
 
 class InputPage extends StatefulWidget {
   @override
@@ -6,6 +14,10 @@ class InputPage extends StatefulWidget {
 }
 
 class _InputPageState extends State<InputPage> {
+  Color maleCardColor = inactiveCardColor;
+  Color femaleCardColor = inactiveCardColor;
+  bool genderSelected = false;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -19,58 +31,89 @@ class _InputPageState extends State<InputPage> {
             child: Row(
               children: [
                 Expanded(
-                  child: MyContainer(
-                    color: Color(0xFF1D1E33),
+                  child: GestureDetector(
+                    onTap: () => selectColor(1),
+                    child: ReusableCard(
+                      color: maleCardColor,
+                      childWidget: IconContent(
+                        faIcon: FontAwesomeIcons.mars,
+                        faText: "MALE",
+                      ),
+                    ),
                   ),
                 ),
                 Expanded(
-                  child: MyContainer(
-                    color: Color(0xFF1D1E33),
+                  child: GestureDetector(
+                    onTap: () => selectColor(2),
+                    child: ReusableCard(
+                      color: femaleCardColor,
+                      childWidget: IconContent(
+                        faIcon: FontAwesomeIcons.venus,
+                        faText: "FEMALE",
+                      ),
+                    ),
                   ),
                 ),
               ],
             ),
           ),
           Expanded(
-            child: MyContainer(
-              color: Color(0xFF1D1E33),
+            child: ReusableCard(
+              color: activeCardColor,
             ),
           ),
           Expanded(
             child: Row(
               children: [
                 Expanded(
-                  child: MyContainer(
-                    color: Color(0xFF1D1E33),
+                  child: ReusableCard(
+                    color: activeCardColor,
                   ),
                 ),
                 Expanded(
-                  child: MyContainer(
-                    color: Color(0xFF1D1E33),
+                  child: ReusableCard(
+                    color: activeCardColor,
                   ),
                 ),
               ],
+            ),
+          ),
+          Container(
+            alignment: Alignment.center,
+            color: bottomContainerColor,
+            margin: EdgeInsets.only(top: 10.0),
+            width: double.infinity,
+            height: bottomContainerHeight,
+            child: Text(
+              "CALCULATE",
+              style: TextStyle(
+                fontSize: 22.0,
+                fontWeight: FontWeight.bold,
+              ),
             ),
           ),
         ],
       ),
     );
   }
-}
 
-class MyContainer extends StatelessWidget {
-  final Color color;
+  void selectColor(int gender) {
+    return setState(() {
+      if (gender == 2) {
+        femaleCardColor = updateCardColor(femaleCardColor);
+        if (femaleCardColor == maleCardColor &&
+            femaleCardColor == activeCardColor)
+          maleCardColor = updateCardColor(maleCardColor);
+      } else {
+        maleCardColor = updateCardColor(maleCardColor);
+        if (femaleCardColor == maleCardColor &&
+            maleCardColor == activeCardColor)
+          femaleCardColor = updateCardColor(femaleCardColor);
+      }
+    });
+  }
 
-  MyContainer({@required this.color});
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(
-        color: color,
-        borderRadius: BorderRadius.circular(10),
-      ),
-      margin: EdgeInsets.all(15.0),
-    );
+  Color updateCardColor(Color colour) {
+    return colour == inactiveCardColor ? activeCardColor : inactiveCardColor;
   }
 }
